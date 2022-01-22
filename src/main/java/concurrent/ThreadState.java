@@ -22,5 +22,7 @@ public class ThreadState {
             System.out.println("Нить 2 " + second.getState());
         }
         System.out.println("Работа завершена");
+        System.out.println("Нить 1 " + first.getState());
+        System.out.println("Нить 2 " + second.getState());
     }
 }
