@@ -1,10 +1,9 @@
 package concurrent.console;
 
 public class ConsoleProgress implements Runnable {
-    private char[] process = {'\\', '|', '/'};
-
     @Override
     public void run() {
+        char[] process = {'\\', '|', '/'};
         try {
             while (!Thread.currentThread().isInterrupted()) {
                 for (int i = 0; i < process.length; i++) {
