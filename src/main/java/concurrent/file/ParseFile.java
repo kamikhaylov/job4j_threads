@@ -11,18 +11,18 @@ public final class ParseFile {
     }
 
     private synchronized String content(Predicate<Integer> predicate) {
-        String output = "";
+        StringBuilder output = new StringBuilder("");
         try (BufferedInputStream i = new BufferedInputStream(new FileInputStream(file))) {
             int data;
             while ((data = i.read()) > 0) {
                 if (predicate.test(data)) {
-                    output += (char) data;
+                    output.append(data);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return output;
+        return output.toString();
     }
 
     public String getContent() {
