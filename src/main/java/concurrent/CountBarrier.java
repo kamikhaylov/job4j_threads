@@ -16,7 +16,7 @@ public class CountBarrier {
 
     public synchronized void await() {
         try {
-            while (count >= total) {
+            while (count < total) {
                 this.wait();
             }
         } catch (InterruptedException e) {
