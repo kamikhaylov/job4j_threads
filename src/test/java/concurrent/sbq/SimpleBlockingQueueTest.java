@@ -1,9 +1,11 @@
 package concurrent.sbq;
 
-import concurrent.sbq.SimpleBlockingQueue;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.IntStream;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -63,5 +65,40 @@ public class SimpleBlockingQueueTest {
         first.join();
         second.join();
         assertThat(list, is(List.of(0, 1, 2, 3, 4, 5)));
+    }
+
+    @Test
+    public void whenOffer5EndLimit5ThenPoll5() throws InterruptedException {
+        final CopyOnWriteArrayList<Integer> buffer = new CopyOnWriteArrayList<>();
+        final SimpleBlockingQueue<Integer> sbq = new SimpleBlockingQueue<>(5);
+        Thread producer = new Thread(
+                () -> {
+                    for (int index = 0; index < 5; index++) {
+                        try {
+                            sbq.offer(index);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+        );
+        producer.start();
+        Thread consumer = new Thread(
+                () -> {
+                    while (sbq.getSize() != 0 || !Thread.currentThread().isInterrupted()) {
+                        try {
+                            buffer.add(sbq.poll());
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            Thread.currentThread().interrupt();
+                        }
+                    }
+                }
+        );
+        consumer.start();
+        producer.join();
+        consumer.interrupt();
+        consumer.join();
+        assertThat(buffer, is(List.of(0, 1, 2, 3, 4)));
     }
 }
