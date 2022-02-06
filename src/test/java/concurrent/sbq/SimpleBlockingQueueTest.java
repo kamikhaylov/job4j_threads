@@ -1,5 +1,6 @@
-package concurrent;
+package concurrent.sbq;
 
+import concurrent.sbq.SimpleBlockingQueue;
 import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
