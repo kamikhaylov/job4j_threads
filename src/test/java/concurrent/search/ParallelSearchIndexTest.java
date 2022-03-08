@@ -26,8 +26,28 @@ public class ParallelSearchIndexTest {
         String[] array = {"5", "4", "3", "2", "1", "9", "8", "7", "6", "5",
                 "10", "20", "30", "40", "50", "60", "70", "80", "90", "89",
                 "99", "88", "77", "66", "55", "44", "33", "22", "11", "23",
-                "15", "45", "35", "25", "20"};
+                "15", "45", "35", "25", "26"};
         Integer expected = ParallelSearchIndex.search(array, "22");
         assertThat(expected, is(27));
+    }
+
+    @Test
+    public void whenArray35thenNotIndex() {
+        String[] array = {"5", "4", "3", "2", "1", "9", "8", "7", "6", "5",
+                "10", "20", "30", "40", "50", "60", "70", "80", "90", "89",
+                "99", "88", "77", "66", "55", "44", "33", "22", "11", "23",
+                "15", "45", "35", "25", "26"};
+        Integer expected = ParallelSearchIndex.search(array, "100");
+        assertThat(expected, is(-1));
+    }
+
+    @Test
+    public void whenArray35thenLastIndex() {
+        String[] array = {"5", "4", "3", "2", "1", "9", "8", "7", "6", "5",
+                "10", "20", "30", "40", "50", "60", "70", "80", "90", "89",
+                "99", "88", "77", "66", "55", "44", "33", "22", "11", "23",
+                "15", "45", "35", "25", "26"};
+        Integer expected = ParallelSearchIndex.search(array, "26");
+        assertThat(expected, is(34));
     }
 }
